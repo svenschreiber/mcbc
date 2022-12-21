@@ -1,3 +1,4 @@
 data/train/*
 data/test/*
 .idea
+CNN/minecraft_biomes.h5
