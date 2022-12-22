@@ -1,24 +1,25 @@
 import numpy as np
 import glob
 from skimage.io import imread
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Flatten
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.callbacks import EarlyStopping
-from tensorflow.keras.callbacks import ModelCheckpoint
+from keras.utils import to_categorical
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import Conv2D
+from keras.layers import MaxPooling2D
+from keras.callbacks import EarlyStopping
+from keras.callbacks import ModelCheckpoint
 from tensorflow.python.client import device_lib
 
 
 lables_dict = {"aquatic": 0, "snowy": 1, "arid": 2, "forest": 3, "plains": 4}
 
+res_x, res_y = (384, 216)
 
 def load_images(path_template):
     paths = glob.glob(path_template)
     labels = []
-    images = np.zeros((len(paths), 360, 640, 3), dtype=np.uint8)
+    images = np.zeros((len(paths), res_y, res_x, 3), dtype=np.uint8)
     for i, path in enumerate(paths):
         label = path.split("\\")[-1]
         label = label.split("-")[0]
@@ -38,7 +39,7 @@ es = EarlyStopping(monitor="val_loss", min_delta=0, patience=3)
 mc = ModelCheckpoint(filepath=filename_pretrain, monitor="val_loss", save_best_only=True)
 
 model = Sequential()
-model.add(Conv2D(32, (3, 3), activation="relu", padding="same", input_shape=(360, 640, 3), name="conv1"))
+model.add(Conv2D(32, (3, 3), activation="relu", padding="same", input_shape=(res_y, res_x, 3), name="conv1"))
 model.add(Conv2D(32, (3, 3), activation="relu", padding="same", name="conv2"))
 model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(64, (3, 3), activation="relu", padding="same", name="conv3"))
