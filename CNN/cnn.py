@@ -22,7 +22,7 @@ train_set, val_set = image_dataset_from_directory(wkdir + "/../data/train/", bat
 test_set = image_dataset_from_directory(wkdir + "/../data/test/", batch_size=8, label_mode="categorical", image_size=(res_y, res_x))
 
 es = EarlyStopping(monitor="val_loss", min_delta=0, patience=3)
-mc = ModelCheckpoint(filepath=wkdir + filename_pretrain, monitor="val_loss", save_best_only=True)
+mc = ModelCheckpoint(filepath=wkdir + f"/{filename_pretrain}", monitor="val_loss", save_best_only=True)
 
 model = Sequential()
 model.add(Conv2D(32, (5, 5), padding="same", strides=1, input_shape=(res_y, res_x, 3), use_bias=False))
