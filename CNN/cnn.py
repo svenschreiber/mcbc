@@ -48,6 +48,7 @@ model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accur
 # model.load_weights(wkdir + filename_pretrain)
 
 metrics = model.fit(train_set, validation_data=val_set, epochs=10, callbacks=[mc])
+np.save(wkdir + "/metric.npy", metrics.history)
 
 loss, acc = model.evaluate(test_set)
 print(loss, acc)
