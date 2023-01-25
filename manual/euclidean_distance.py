@@ -1,24 +1,30 @@
 import glob
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.io import imread
 import skimage
+from collections import Counter
 
+wkdir = os.path.dirname(os.path.realpath(__file__))
 
-def load_images(path_template):
+dataset_decrease_factor = 0.05 # => 8000 train imgs, 2000 test imgs
+res_y = 216
+
+def load_images(dataset_type):
     images = []
     labels = []
-    paths = glob.glob(path_template)
-    for path in paths:
-        label = path.split("\\")[-1]
-        label = label.split("-")[0]
+    filenames = np.load(wkdir + f"/../data/x_{dataset_type}_filenames.npy")
+    num_files = int(filenames.shape[0] * dataset_decrease_factor)
+    for path in filenames[:num_files]:
+        label = path.split("-")[0]
         labels.append(label)
-        images.append(imread(path))
+        images.append(imread(wkdir + f"/../data/{dataset_type}/{label}/{path}")[res_y//2:])
     return images, labels
 
 
-trImgs, trLabels = load_images("../data/train/*.png")
-teImgs, teLabels = load_images("../data/test/*.png")
+trImgs, trLabels = load_images("train")
+teImgs, teLabels = load_images("test")
 
 trAvgs = [np.mean(trImgs, axis=(1, 2)), trLabels]
 
@@ -27,7 +33,7 @@ def euk_dist(hist1, hist2):
     return np.sum((hist1 - hist2) ** 2) ** .5
 
 
-classifications1 = []
+classifications = []
 for i in range(len(teImgs)):
     avg = np.mean(teImgs[i], axis=(0, 1))
     dists = []
@@ -38,13 +44,11 @@ for i in range(len(teImgs)):
 
     cDist, cLabel = dists[0]
 
-    classifications1 += [cLabel]
+    classifications += [cLabel]
 
 correct_count = 0
-for i in range(len(classifications1)):
-    if classifications1[i] == teLabels[i]:
+for i in range(len(classifications)):
+    if classifications[i] == teLabels[i]:
         correct_count += 1
 
-print(classifications1)
-print(teLabels)
-print(correct_count / len(classifications1))
+print("Accuracy:", correct_count / len(classifications))
