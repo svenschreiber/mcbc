@@ -14,9 +14,9 @@ res_y = 216
 def load_images(dataset_type):
     images = []
     labels = []
-    filenames = np.load(wkdir + f"/../data/x_{dataset_type}_filenames.npy")
-    num_files = int(filenames.shape[0] * dataset_decrease_factor)
-    for path in filenames[:num_files]:
+    paths = glob.glob(wkdir + f"/../data/{dataset_type}/*/*.png")
+    paths = [path.split("\\")[-1] for path in paths]
+    for path in paths:
         label = path.split("-")[0]
         labels.append(label)
         images.append(imread(wkdir + f"/../data/{dataset_type}/{label}/{path}")[res_y//2:])
