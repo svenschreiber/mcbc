@@ -3,3 +3,4 @@ data/test/*
 data/all/*
 .idea
 CNN/*.h5
+CNN/*.npy
