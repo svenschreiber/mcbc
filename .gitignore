@@ -1,6 +1,7 @@
 data/train/*
 data/test/*
 data/all/*
+data/meta/*
 .idea
 CNN/*.h5
 CNN/*.npy
