@@ -19,14 +19,13 @@ res_y = 216
 def load_images(dataset_type):
     images = []
     labels = []
-    paths = glob.glob(wkdir + f"/../data/{dataset_type}/*/*.png")
-    paths = [path.split("\\")[-1] for path in paths]
-    for path in tqdm(paths):
+    filenames = np.load(wkdir + f"/../data/x_{dataset_type}_filenames.npy")
+    num_files = int(filenames.shape[0] * dataset_decrease_factor)
+    for path in tqdm(filenames[:num_files]):
         label = path.split("-")[0]
         labels.append(label)
         images.append(imread(wkdir + f"/../data/{dataset_type}/{label}/{path}")[:,:,:3].reshape((res_x * res_y, 3)))
     return images, labels
-
 
 trImgs, trLabels = load_images("train")
 teImgs, teLabels = load_images("test")

@@ -60,4 +60,4 @@ for i in range(len(teImgs)):
     if cLabel == teLabels[i]:
         correctCount += 1
 
-print("Accuracy:", correctCount / len(classifications))
+print("Accuracy (1D-histograms):", correctCount / len(classifications))
