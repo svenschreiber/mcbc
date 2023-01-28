@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from skimage.io import imread
 import skimage
 from collections import Counter
+from tqdm import tqdm
 
 wkdir = os.path.dirname(os.path.realpath(__file__))
 
@@ -16,7 +17,7 @@ def load_images(dataset_type):
     labels = []
     filenames = np.load(wkdir + f"/../data/x_{dataset_type}_filenames.npy")
     num_files = int(filenames.shape[0] * dataset_decrease_factor)
-    for path in filenames[:num_files]:
+    for path in tqdm(filenames[:num_files]):
         label = path.split("-")[0]
         labels.append(label)
         images.append(imread(wkdir + f"/../data/{dataset_type}/{label}/{path}")[res_y//2:])
@@ -32,7 +33,7 @@ def euk_dist(hist1, hist2):
     return np.sum((hist1 - hist2) ** 2) ** .5
 
 classifications = []
-for i in range(len(teImgs)):
+for i in tqdm(range(len(teImgs))):
     avg = np.mean(teImgs[i], axis=(0, 1))
     dists = []
     for j in range(len(trImgs)):
