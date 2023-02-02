@@ -18,4 +18,4 @@ The repository contains one approach utilizing a **convolutional neural network 
 Sven Schreiber (https://github.com/svenschreiber) \
 Lasse Huber-Saffer (https://github.com/OfficialLahusa) \
 Nico Hädicke (https://github.com/Reshxram) \
-Lena Kloock
+Lena Kloock (https://github.com/LenaKloock)
