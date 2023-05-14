@@ -24,7 +24,7 @@ def load_images(dataset_type):
     for path in tqdm(filenames[:num_files]):
         label = path.split("-")[0]
         labels.append(label)
-        images.append(imread(wkdir + f"/../data/{dataset_type}/{label}/{path}")[:,:,:3].reshape((res_x * res_y, 3)))
+        images.append(imread(wkdir + f"/../data/{dataset_type}/{label}/{path}")[res_y//2:,:,:3].reshape((res_x * (res_y//2), 3)))
     return images, labels
 
 trImgs, trLabels = load_images("train")
